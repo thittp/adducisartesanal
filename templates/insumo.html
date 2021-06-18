@@ -1,0 +1,124 @@
+{% extends "basemaster.html" %}
+{% block titulo %}Insumos{% endblock %}
+        {% block js %}
+            function validar() {
+                const nome_insumo = document.getElementById('nome_insumo');
+                const unidade_medida = document.getElementById('unidade_medida');
+                if (nome_insumo.value === '') {
+                    alert("Preencha o nome do insumo.");
+                    return false;
+                }
+                if (unidade_medida.value === '') {
+                    alert("Preencha a unidade de medida do insumo.");
+                    return false;
+                }
+                return true;
+            }
+
+            function salvar1() {
+                if (validar()) document.getElementById("form_principal").submit();
+            }
+        {% endblock %}
+{% block conteudo %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <div class="container">
+    <h1>Insumos</h1>
+    <p><button data-id="novoinsumo" class="userinfo btn btn-lg btn-default">Adicionar Insumo</button>
+    <a href="/insumo/compra" <button class="userinfo btn btn-lg btn-default">Compras</button></a></p>
+    </div>
+    
+    
+    <div class="grid" cellspacing="100" width="100%" >
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Quantidade</th>
+                    <th>Unidade de medida</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+        <tbody>
+            {% for insumo in insumo %}
+                <tr>
+                    <td>{{insumo['id_insumo']}}</td>
+                    <td>{{insumo['nome_insumo']}}</td>
+                    <td>{{insumo['quantidade']}}</td>
+                    <td>{{insumo['unidade_medida']}}</td>
+                    <td><button data-id='{{insumo.id_insumo}}' class="userinfo btn btn-sm btn-default">Editar</button></td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+
+
+ <script type='text/javascript'>
+            $(document).ready(function(){
+                $('.userinfo').click(function(){
+                    var userid = $(this).data('id');
+                    $.ajax({
+                        url: '/cadinsumo',
+                        type: 'post',
+                        data: {userid: userid},
+                        success: function(data){ 
+                            $('.modal-body').html(data); 
+                            $('.modal-body').append(data.htmlresponse);
+                            $('#empModal').modal('show'); 
+                        }
+                    });
+                });
+            });
+            $(document).ready(function(){
+                $('.userinfo').click(function(){
+                    var userid = $(this).data('novoinsumo');
+                    $.ajax({
+                        url: '/cadinsumo',
+                        type: 'get',
+                        data: {userid: userid},
+                        success: function(data){ 
+                            $('.modal-body').html(data); 
+                            $('.modal-body').append(data.htmlresponse);
+                            $('#empModal').modal('show'); 
+                        }
+                    });
+                });
+            });
+
+ 
+</script>
+
+
+        <div class="modal fade" id="empModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Insumo</h4>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default" onclick="javascript:salvar1();">Salvar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+
+{% endblock %}

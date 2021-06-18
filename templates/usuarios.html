@@ -1,0 +1,203 @@
+{% extends "basemaster.html" %}
+{% block titulo %}Usuarios{% endblock %}
+        {% block js %}
+            function validar() {
+                const nome_usuario = document.getElementById('nome_usuario');
+                const login = document.getElementById('login');
+                const senha = document.getElementById('senha');
+                const cpf = document.getElementById('cpf');
+                const email = document.getElementById('email');
+                const telefone = document.getElementById('telefone');
+                const banco = document.getElementById('banco');
+                const tipo_conta = document.getElementById('tipo_conta');
+                const agencia = document.getElementById('agencia');
+                const conta = document.getElementById('conta');
+                const cep = document.getElementById('cep');
+                const logradouro = document.getElementById('logradouro');
+                const numero = document.getElementById('numero');
+                const uf = document.getElementById('uf');
+                const cidade = document.getElementById('cidade');
+                if (nome_usuario.value === '') {
+                    alert("Preencha o nome.");
+                    return false;
+                }
+                if (login.value === '') {
+                    alert("Preencha o login.");
+                    return false;
+                }
+                if (senha.value === '') {
+                    alert("Preencha a senha.");
+                    return false;
+                }
+                if (cpf.value === '') {
+                    alert("Preencha o CPF.");
+                    return false;
+                }
+                if (email.value === '') {
+                    alert("Preencha o e-mail.");
+                    return false;
+                }
+                if (telefone.value === '') {
+                    alert("Preencha o telefone.");
+                    return false;
+                }
+                if (banco.value === '') {
+                    alert("Preencha o nome do banco.");
+                    return false;
+                }
+                if (agencia.value === '') {
+                    alert("Preencha o número da agência.");
+                    return false;
+                }
+                if (conta.value === '') {
+                    alert("Preencha o número da conta.");
+                    return false;
+                }
+                if (cep.value === '') {
+                    alert("Preencha o CEP.");
+                    return false;
+                }
+                if (logradouro.value === '') {
+                    alert("Preencha o logradouro.");
+                    return false;
+                }
+                if (numero.value === '') {
+                    alert("Preencha o número, caso não tenha preencha 0.");
+                    return false;
+                }
+                if (uf.value === '') {
+                    alert("Preencha o estado.");
+                    return false;
+                }
+                if (cidade.value === '') {
+                    alert("Preencha a cidade.");
+                    return false;
+                }
+                return true;
+            }
+
+            function salvar() {
+                if (validar()) document.getElementById("form_principal").submit();
+            }
+
+
+        {% endblock %}
+{% block conteudo %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+   
+   
+    {% if mensagem != '' %}
+        <div padding-bottom: 75% class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{mensagem}}
+        </div>
+    {% endif %}
+
+
+    
+    <div class="container"> 
+    <h1>Usuarios</h1>
+    <button data-id="novo" class="userinfo btn btn-lg btn-default">Cadastrar usuário</button>
+    </div>    
+    
+    
+    <div class="grid">
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Login</th>
+                <th>Senha</th>
+                <th>Telefone</th>
+                <th>Tipo</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        
+        {% for usuario in usuario %}
+        <tbody>
+            <tr>
+                <td>{{usuario['id_usuario']}}</td>
+                <td>{{usuario['nome_usuario']}}</td>
+                <td>{{usuario['login']}}</td>
+                <td>{{usuario['senha']}}</td>
+                <td>{{usuario['telefone']}}</td>
+                <td>{{usuario['tipo']}}</td>
+                <td><button data-id='{{usuario.id_usuario}}' class="userinfo btn btn-sm btn-default">Editar</button></td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+    </div>
+
+<script type='text/javascript'>
+
+            $(document).ready(function(){
+                $('.userinfo').click(function(){
+                    var userid = $(this).data('id');
+                    $.ajax({
+                        url: '/cadusuario',
+                        type: 'post',
+                        data: {userid: userid},
+                        success: function(data){ 
+                            $('.modal-body').html(data); 
+                            $('.modal-body').append(data.htmlresponse);
+                            $('#empModal').modal('show'); 
+                        }
+                    });
+                });
+            });
+            $(document).ready(function(){
+                $('.userinfo').click(function(){
+                    var userid = $(this).data('novo');
+                    $.ajax({
+                        url: '/cadusuario',
+                        type: 'get',
+                        data: {userid: userid},
+                        success: function(data){ 
+                            $('.modal-body').html(data); 
+                            $('.modal-body').append(data.htmlresponse);
+                            $('#empModal').modal('show'); 
+                        }
+                    });
+                });
+            });
+            
+</script>
+
+
+        <div class="modal fade" id="empModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Usuário</h4>
+
+ 
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                        
+                        <button type="button" class="btn btn-default" onclick="javascript:salvar();">Salvar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+
+
+    
+{% endblock %}

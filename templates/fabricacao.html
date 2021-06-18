@@ -1,0 +1,125 @@
+{% extends "basemaster.html" %}
+{% block titulo %}Fabricação{% endblock %}
+
+    {% block js %}
+        function validar() {
+            const data_fabricacao = document.getElementById('data_fabricacao');
+            if (data_fabricacao.value === '') {
+                alert("Preencha a data.");
+                return false;
+            }
+            return true;
+        }
+
+        function salvar() {
+            if (validar()) document.getElementById("form_principal").submit();
+        }
+
+    {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+{% block conteudo %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <div class="container"> 
+        <h1>Fabricação</h1>
+        <p><button data-id="novafabricacao" class="userinfo btn btn-lg btn-default">Adicionar Fabricação</button></p>
+    </div>
+    
+    <div class="grid">
+        <table cellspacing="100" width="100%">   
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Data da fabricação</th>
+                <th>&nbsp;</th>
+            </tr>
+        {% for fabricacao in fabricacao %}
+            <tr>
+                <td>{{fabricacao['id_fabricacao']}}</td>
+                <td>{{fabricacao['data_fabricacao']}}</td>
+                <td><button data-id='{{fabricacao.id_fabricacao}}' class="userinfo btn btn-sm btn-default">Editar</button></td>
+                
+
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    
+<script type='text/javascript'>
+            $(document).ready(function(){
+                $('.userinfo').click(function(){
+                    var userid = $(this).data('id');
+                    $.ajax({
+                        url: '/cadfabricacao',
+                        type: 'post',
+                        data: {userid: userid},
+                        success: function(data){ 
+                            $('.modal-body').html(data); 
+                            $('.modal-body').append(data.htmlresponse);
+                            $('#empModal').modal('show'); 
+                        }
+                    });
+                });
+            });
+            $(document).ready(function(){
+                $('.userinfo').click(function(){
+                    var userid = $(this).data('novafabricacao');
+                    $.ajax({
+                        url: '/cadfabricacao',
+                        type: 'get',
+                        data: {userid: userid},
+                        success: function(data){ 
+                            $('.modal-body').html(data); 
+                            $('.modal-body').append(data.htmlresponse);
+                            $('#empModal').modal('show'); 
+                        }
+                    });
+                });
+            });
+
+ 
+</script>
+
+
+        <div class="modal fade" id="empModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Fabricação</h4>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default" onclick="javascript:salvar();">Salvar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+
+
+
+{% endblock %}

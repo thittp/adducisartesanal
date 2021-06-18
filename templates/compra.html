@@ -1,0 +1,140 @@
+{% extends "basemaster.html" %}
+{% block titulo %}Compras{% endblock %}
+
+
+    {% block js %}
+        function validar() {
+            const data_compra = document.getElementById('data_compra');
+            const valor_compra = document.getElementById('valor_compra');
+            if (data_compra.value === '') {
+                alert("Preencha a data da compra.");
+                return false;
+            }
+            if (valor_compra.value === '') {
+                alert("Preencha o valor total da compra.");
+                return false;
+            }
+            return true;
+        }
+
+        function salvar() {
+            if (validar()) document.getElementById("form_principal").submit();
+        }
+
+    {% endblock %}
+
+
+
+
+
+
+
+
+
+
+{% block conteudo %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    {% if mensagem != '' %}
+        <div padding-bottom: 75% class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{mensagem}}
+        </div>
+    {% endif %}
+
+    <div class="container"> 
+        <h1>Compras</h1>
+        <button data-id="novacompra" class="userinfo btn btn-lg btn-default">Adicionar Compra</button>
+        <a href="/insumo"><button class="btn btn-lg btn-default">Insumos</button></a>
+    </div>  
+
+    <div class="grid">
+        <table class="tablesorter">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Data da compra</th>
+                    <th>Preço total</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+        {% for compra in compra %}
+            <tr>
+                <td>{{compra['id_compra']}}</td>
+                <td>{{compra['data_compra']}}</td>
+                <td>{{compra['valor_compra']}}</td>
+                <td><button data-id='{{compra.id_compra}}' class="userinfo btn btn-sm btn-default">Editar</button></td>
+
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    
+
+ <script type='text/javascript'>
+            $(document).ready(function(){
+                $('.userinfo').click(function(){
+                    var userid = $(this).data('id');
+                    $.ajax({
+                        url: '/cadcompra',
+                        type: 'post',
+                        data: {userid: userid},
+                        success: function(data){ 
+                            $('.modal-body').html(data); 
+                            $('.modal-body').append(data.htmlresponse);
+                            $('#empModal').modal('show'); 
+                        }
+                    });
+                });
+            });
+            $(document).ready(function(){
+                $('.userinfo').click(function(){
+                    var userid = $(this).data('novacompra');
+                    $.ajax({
+                        url: '/cadcompra',
+                        type: 'get',
+                        data: {userid: userid},
+                        success: function(data){ 
+                            $('.modal-body').html(data); 
+                            $('.modal-body').append(data.htmlresponse);
+                            $('#empModal').modal('show'); 
+                        }
+                    });
+                });
+            });
+
+ 
+</script>
+
+
+        <div class="modal fade" id="empModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Compra</h4>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default" onclick="javascript:salvar();">Salvar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,23 @@
+
+@application.route("/insumo/compra/novo", methods = ["POST"])
+def criar_compra_api():
+    # Autenticação.
+    logado = autenticar_login()
+    if logado is None:
+        return redirect("/")
+
+    # Extrai os dados do formulário.
+    data_compra = request.form["data_compra"]
+    valor_compra = request.form["valor_compra"]
+    id_insumo = request.form["id_insumo"]
+    quantidade = request.form["quantidade"]
+    data_vencimento = request.form["data_vencimento"]
+    valor_unitario = request.form["valor_unitario"]
+
+    # Faz o processamento.
+    compra = rg.criar_compra(data_compra, valor_compra)
+    itemcompra = rg.criar_itemcompra(compra['id_compra'], id_insumo, quantidade, data_vencimento, valor_unitario)
+    addinsumo = rg.editar_addinsumo(itemcompra['id_insumo'], itemcompra['quantidade'])
+    # Monta a resposta.
+    mensagem = f"O aluno  foi criado com o id ."
+    return redirect('/insumo/compra')

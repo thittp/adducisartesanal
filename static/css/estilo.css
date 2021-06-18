@@ -1,0 +1,151 @@
+body{
+    background-image: url(../img/background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;    
+    min-height: 10%;
+    margin: 50px;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.logo{
+    width: 300;
+        margin-right: 60%;
+}
+
+.formulario{
+    margin: 100;
+    width: 400px;
+    padding: 50px;
+    border:1px solid #ccc;    
+}
+
+form{
+    margin: 100;
+    width: 400px;
+    padding: 50px;
+    border:1px solid #ccc;    
+}
+
+header{
+    background-color: #ffffff;
+    padding: 1px;
+    text-align: left;
+    font-size: 15px;
+}
+
+
+nav{
+    overflow: hidden;
+    background-color: rgb(219, 216, 216);
+}
+
+nav a{
+    float: left;
+    color:black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+nav a:hover{
+    background-color: rgb(185, 179, 179);
+}
+
+nav a.ativo{
+    background-color: rgb(185, 179, 179);
+}
+
+.FixoNoTopo{
+    position: fixed;
+    top: 0px;
+    width: 100%;
+}
+
+.FixoNoTopo + .principal{
+    padding-top: 60px;
+}
+
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    line-height: 1.1;
+    color: rgb(42, 43, 42)
+}
+
+
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    line-height: 1.1;
+    color: rgb(42, 43, 42)
+}
+
+h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    line-height: 1.1;
+    color: rgb(42, 43, 42)
+}
+
+a:link {
+    text-decoration: none;
+  }
+  
+  a:visited {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  a:active {
+    text-decoration: underline;
+  }
+
+
+
+/**grid tabelas**/ 
+.grid table {
+    text-transform: uppercase;
+    border-spacing: 1px;
+    border-collapse: collapse;
+    margin: 30px;
+    color: rgb(0, 0, 0);
+    font-size: 12;
+    font-family: 'verdana';
+    text-align: center;
+    display: block;
+    width: max-content;
+    height: auto;
+    background-color: rgba(226, 223, 223, 0.782);
+    
+}
+
+.grid table .top td, .inANDout table .dados:last-of-type td{
+  border-bottom: 2px solid #595c62;
+ 
+}
+
+.grid table th{
+    border-left: 1px solid #ddd;
+    padding:1em;
+    text-align: center;
+  }
+
+.grid table td{
+  border-left: 1px solid #ddd;
+  padding:1em;
+}
+.grid table td:first-of-type{
+  border-left: none;
+}
+
+
+
+
+

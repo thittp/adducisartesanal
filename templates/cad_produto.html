@@ -1,0 +1,39 @@
+{% block conteudo %}
+    <form class="form-horizontal" action="/produtos/{{ produto['id_produto'] }}" method="POST" id="form_principal" enctype="multipart/form-data">
+        {% if produto['id_produto'] != 'novo' %}
+            <p>
+                <label>Id:</label>
+                {{produto['id_produto']}}
+            </p>
+        {% endif %}
+        <div class="form-group">
+        
+            <label for="nome_produto">Nome do produto:</label>
+            <input type="text" class="form-control"  id="nome_produto" name="nome_produto" autocomplete="off" value="{{produto['nome_produto']}}" />
+        
+        </div>
+        
+        <div class="form-group">   
+        <label>Status:</label>
+            <input type="radio" id="status" name="status" value="A" {% if produto['status'] == 'A' %} checked="checked"{% endif %}>Ativo</input>
+            <input type="radio" id="status" name="status" value="I" {% if produto['status'] == 'I' %} checked="checked"{% endif %}>Inativo</input>
+        </div>
+        
+        
+        
+        <div class="form-group">
+            <label for="preco_atual">Preço atual:</label>
+            <input class="form-control" type="text" id="preco_atual" name="preco_atual" autocomplete="off" value="{{produto['preco_atual']}}" />
+        </div>
+
+        <div class="form-group">
+            <label for="prazo_validade">Prazo de validade:</label>
+            <input class="form-control" type="text" id="prazo_validade" name="prazo_validade" autocomplete="off" value="{{produto['prazo_validade']}}" />
+        </div>
+        <div class="form-group">
+            <label for="descricao">Descrição:</label>
+            <input class="form-control" type="text" id="descricao" name="descricao" autocomplete="off" value="{{produto['descricao']}}" />
+        </div>
+
+    </form>
+{% endblock %}

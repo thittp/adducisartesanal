@@ -1,0 +1,131 @@
+{% extends "basemaster.html" %}
+{% block titulo %}Produtos Inativos{% endblock %}
+        {% block js %}
+            function validar() {
+                const nome_produto = document.getElementById('nome_produto');
+                const preco_atual = document.getElementById('preco_atual');
+                const prazo_validade = document.getElementById('prazo_validade');
+                const descricao = document.getElementById('descricao');
+                if (nome_produto.value === '') {
+                    alert("Preencha o nome.");
+                    return false;
+                }
+                if (preco_atual.value === '') {
+                    alert("Preencha o preço atual.");
+                    return false;
+                }
+                if (prazo_validade.value === '') {
+                    alert("Preencha o prazo de validade.");
+                    return false;
+                }
+                if (descricao.value === '') {
+                    alert("Preencha a descricao.");
+                    return false;
+                }
+                return true;
+            }
+
+            function salvar() {
+                if (validar()) document.getElementById("form_principal").submit();
+            }
+
+
+        {% endblock %}
+{% block conteudo %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    
+    {% if mensagem != '' %}
+        <div padding-bottom: 75% class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{mensagem}}
+        </div>
+    {% endif %}
+
+    <div class="container"> 
+    <h1>Produtos Inativos</h1>
+    <a href="/produtos"><button class='btn btn-lg btn-default'>Voltar</button></a>
+    </div>  
+
+    
+    
+    <div class="grid">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</td>
+                    <th>Preço Atual</th>
+                    <th>Ingredientes</th>
+                    <th>Prazo Validade</th>
+                    <th>Descrição</th>
+                    <th>Quantidade</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+        {% for row in produto %}
+            <tbody>
+                <tr>
+                    <td>{{row.id_produto}}</td>
+                    <td>{{row.nome_produto}}</td>
+                    <td>{{row.preco_atual}}</td>
+                    <td>{{row.ingredientes}}</td>
+                    <td>{{row.prazo_validade}}</td>
+                    <td>{{row.descricao}}</td>
+                    <td>{{row.quantidade}}</td>
+                    <!--<td><a href="produtos/{{produto['id_produto']}}">Editar</a></td>-->
+                    <td><button data-id='{{row.id_produto}}' class="userinfo btn btn-sm btn-default">Editar</button></td>
+                </tr>
+             </tbody>
+        {% endfor %}
+    </table>
+    </div>
+
+<script type='text/javascript'>
+            $(document).ready(function(){
+                $('.userinfo').click(function(){
+                    var userid = $(this).data('id');
+                    $.ajax({
+                        url: '/editarprodutoinativo',
+                        type: 'post',
+                        data: {userid: userid},
+                        success: function(data){ 
+                            $('.modal-body').html(data); 
+                            $('.modal-body').append(data.htmlresponse);
+                            $('#empModal').modal('show'); 
+                        }
+                    });
+                });
+            });
+    
+</script>
+
+
+        <div class="modal fade" id="empModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Produto</h4>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default" onclick="javascript:salvar();">Salvar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+{% endblock %}

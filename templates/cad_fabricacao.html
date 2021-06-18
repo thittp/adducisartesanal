@@ -1,0 +1,67 @@
+{% block conteudo %}
+    <form action="/fabricacao/{{ fabricacao['id_fabricacao'] }}" method="POST" id="form_principal" enctype="multipart/form-data">
+        {% if fabricacao['id_fabricacao'] != 'novo' %}
+            <p>
+                <label>Id:</label>
+                {{fabricacao['id_fabricacao']}}
+            </p>
+        {% endif %}
+        <p>
+            <label for="data_fabricacao">Data da fabricacao:</label>
+            <input type="date" id="data_fabricacao" name="data_fabricacao" autocomplete="off" value="{{fabricacao['data_fabricacao']}}" />
+        </p>
+
+
+    <div>_________________</div>
+    <div id="divProdutoList">
+    </div>
+    <input type="button" value="Adicionar Produto" onclick="produtoList.insert()" />
+
+
+    <div id="divProdutoBase" style="display:none;">
+
+    <p><label for="id_produto">Produto:</label>
+    <select name="produto[]" id="produto"><option value="id">Escolha o produto...</option>
+        {% for produto in produto %}
+            <option value="{{insumo['id_insumo']}}">{{insumo['nome_insumo']}}</option>
+        
+        {% endfor %}
+    </select></p>
+
+
+    <p>Quantidade: <input type="text" name="quantidade[]" /></p>
+    <input type="button" value="Remover" onclick="produtoList.remove(this.parentNode)" />
+    <div>_________________</div>
+</div>
+</form>
+
+
+
+
+
+
+    <script type='text/javascript'>
+        var produtoList = {
+            'init': function()
+            {
+                this.divProdutoList = document.getElementById('divProdutoList');
+                this.divProdutoBase = document.getElementById('divProdutoBase');
+            },
+            
+            'insert': function()
+            {
+                var newDiv = this.divProdutoBase.cloneNode(true);
+                newDiv.style.display = '';
+                console.log('newDiv => ', newDiv);
+                this.divProdutoList.appendChild(newDiv);
+            },
+            
+            'remove': function(el)
+            {
+                el.parentNode.removeChild(el);
+            }
+        };
+        produtoList.init();
+    </script>
+
+{% endblock %}

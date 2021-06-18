@@ -1,0 +1,42 @@
+<html>
+    <head>
+    <title>Adducis Artesanais</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename = 'img/cookie.png') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/estilo.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+
+
+<body>
+
+<div class="container">
+        <form class="form-horizontal" action="./login" method="POST">
+        
+            <img class="logo" src="../static/img/logo.png" alt="Adduci's Artesanais">
+        {% if mensagem %}
+            <p class="mensagem">{{mensagem}}</p>
+        {% endif %}
+            <label for="login">Login:</label><input class="form-control" type="text" name="login" id="login"><br>
+            <label for="senha">Senha:</label><input class="form-control" type="password" name="senha" id="senha"><br>
+
+        {% if erro %}
+            <p class="erro">{{erro}}</p>
+        {% endif %}
+            <p><button type="submit">Entrar</button></p>
+
+        </form>
+</div>
+
+</body>
+
+</html>

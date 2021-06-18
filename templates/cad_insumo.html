@@ -1,0 +1,20 @@
+{% block conteudo %}
+    <form action="/insumo/{{ insumo['id_insumo'] }}" method="POST" id="form_principal" enctype="multipart/form-data">
+        {% if insumo['id_insumo'] != 'novo' %}
+            <p>
+                <label>Id:</label>
+                {{insumo['id_insumo']}}
+            </p>
+        {% endif %}
+        <p>
+            <label for="nome_insumo">Nome:</label>
+            <input type="text" id="nome_insumo" name="nome_insumo" autocomplete="off" value="{{insumo['nome_insumo']}}" />
+        </p>
+        <p>
+            <label for="unidade_medida">Unidade de medida:</label>
+            <input type="text" id="unidade_medida" name="unidade_medida" autocomplete="off" value="{{insumo['unidade_medida']}}" />
+        </p>
+
+    </form>
+
+{% endblock %}
